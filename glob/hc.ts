@@ -1,7 +1,7 @@
 import moment from 'moment';
 
 export class HC {
-    static readonly APP_NAME = 'APP_NAME';
+    static readonly APP_NAME = 'EK';
 
     static readonly SUCCESS = { success: true };
     static readonly FAILED = { success: false };

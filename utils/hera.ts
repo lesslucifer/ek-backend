@@ -2,7 +2,6 @@ import * as express from 'express';
 import * as glob from 'glob';
 import * as _ from 'lodash';
 import { ajv2 } from './ajv2';
-const phoneFormatter = require('phone-formatter');
 const rs = require('randomstring')
 
 export type BoxedPromise<T> = T | Promise<T>;
@@ -219,10 +218,6 @@ export class Hera {
         }
     }
     
-    standardlizePhoneNumber(phone: string): string {
-        return phoneFormatter.normalize(phone);
-    }
-
     mongoEqOrIn(val: any) {
         if (_.isArray(val)) {
             if (val.length == 0) return undefined;

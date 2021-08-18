@@ -460,6 +460,11 @@ balanced-match@^1.0.0:
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-1.0.2.tgz#e83e3a7e3f300b34cb9d87f615fa0cbf357690ee"
   integrity sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==
 
+bases@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/bases/-/bases-0.2.1.tgz#c0294a3f86d403d79b82ec4997b27caf90f44570"
+  integrity sha1-wClKP4bUA9ebguxJl7J8r5D0RXA=
+
 binary-extensions@^2.0.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/binary-extensions/-/binary-extensions-2.2.0.tgz#75f502eeaf9ffde42fc98829645be4ea76bd9e2d"
@@ -2717,6 +2722,11 @@ standard-as-callback@^2.1.0:
   resolved "https://registry.yarnpkg.com/statuses/-/statuses-1.5.0.tgz#161c7dac177659fd9811f43771fa99381478628c"
   integrity sha1-Fhx9rBd2Wf2YEfQ3cfqZOBR4Yow=
 
+string-padding@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/string-padding/-/string-padding-1.0.2.tgz#3aaad855b3e9735c5e412dfe72198ccf99c7f48e"
+  integrity sha1-OqrYVbPpc1xeQS3+chmMz5nH9I4=
+
 "string-width@^1.0.2 || 2":
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/string-width/-/string-width-2.1.1.tgz#ab93f27a8dc13d28cac815c462143a6d9012ae9e"
@@ -2831,6 +2841,11 @@ supports-color@^7.1.0:
   integrity sha512-qpCAvRl9stuOHveKsn7HncJRvv501qIacKzQlO/+Lwxc9+0q2wLyv4Dfvt80/DPn2pqOBsJdDiogXGR9+OvwRw==
   dependencies:
     has-flag "^4.0.0"
+
+swagger-ui-dist@^4.0.0-beta.4:
+  version "4.0.0-beta.4"
+  resolved "https://registry.yarnpkg.com/swagger-ui-dist/-/swagger-ui-dist-4.0.0-beta.4.tgz#e3f599c0abd13a500c78500cce54f20fd1c9dc0c"
+  integrity sha512-lWEMkO2Hgi+sNNNwodDr+ocua7FWp8fIldstdIvIpXJVYsFpEPlOeGRoNerrtCSsgKwpziVNII+WO9xQZIJMsw==
 
 term-size@^2.1.0:
   version "2.2.1"

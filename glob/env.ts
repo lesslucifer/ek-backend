@@ -4,7 +4,15 @@ import hera from '../utils/hera';
 
 const ajv = newAjv2();
 
-export interface ENV_CONFIG {
+export interface DB_CONFIG {
+    REDIS: string;
+}
+
+const ajvDbConfig = {
+    '+@REDIS': 'string'
+}
+
+export interface ENV_CONFIG extends DB_CONFIG {
     NAME: string;
     HTTP_PORT: number;
     LOG_LEVEL: string;
@@ -13,11 +21,12 @@ export interface ENV_CONFIG {
 const ajvEnvConfig = ajv({
     '+@NAME': 'string',
     '@HTTP_PORT': 'number',
-    '@LOG_LEVEL': 'string'
+    '@LOG_LEVEL': 'string',
+    ...ajvDbConfig
 })
 
 const ENV_DEFAULT: Partial<ENV_CONFIG> = {
-    HTTP_PORT: 4887,
+    HTTP_PORT: 3000,
     LOG_LEVEL: 'debug'
 }
 
@@ -26,8 +35,8 @@ const envCustomParser = {
 }
 
 function loadConfig(): ENV_CONFIG {
-    console.debug('process.env')
-    console.debug(JSON.stringify(process.env, null, 2))
+    // console.debug('process.env')
+    // console.debug(JSON.stringify(process.env, null, 2))
     const config: any = _.cloneDeep(ENV_DEFAULT);
     for (const key in process.env) {
         let val = process.env[key]

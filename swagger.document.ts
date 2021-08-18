@@ -26,17 +26,19 @@ export class Program {
             }
         }
 
-        const routers = await ExpressRouter.loadRoutersInDir(`${__dirname}/routes`)
+        const routers = await ExpressRouter.loadRoutersInDir(`${__dirname}/routes`, {
+            log: console.error.bind(console)
+        })
         await hera.sleep()
 
         routers.forEach(r => {
-            // console.log(`Importing file ${r.file}`)
+            console.log(`Importing file ${r.file}`)
             doc.addRouter(r.er, undefined, r.path)
-            // console.log(`Imported file ${r.file}`)
+            console.log(`Imported file ${r.file}`)
         })
 
         // console.log(JSON.stringify(doc))
-        await fs.writeFile(`dist/${doc.info.title}.${doc.info.version}.openapi.json`, JSON.stringify(doc))
+        await fs.writeFile(`dist/openapi.json`, JSON.stringify(doc))
         console.log('DONE')
 
         return 0;
