@@ -33,7 +33,7 @@ export class EKGame {
             const time = Date.now()
             try {
                 // Frame logic here
-                console.log(`Game ${this.id} is running at: ${time}`)
+                // console.log(`Game ${this.id} is running at: ${time}`)
             }
             catch (err) {
                 // Handle error each frame
