@@ -1,6 +1,5 @@
 import ERR from "../glob/err"
-import hera from "../utils/hera"
-import { GameLogicError } from "./base"
+import hera, { AppLogicError } from "../utils/hera"
 
 export type EKGameState = 'WAITING_LOBBY' | 'RUNNING' | 'PAUSED' | 'STOPPED'
 
@@ -13,7 +12,7 @@ export class EKGame {
     id: string;
     state: EKGameState = 'WAITING_LOBBY'
     sysConfig: IEKGameSystemConfig = {
-        interval: 60,
+        interval: 200,
         minSleepTime: 10
     }
 
@@ -22,18 +21,18 @@ export class EKGame {
     }
     
     async start() {
-        if (this.state != 'WAITING_LOBBY') throw new GameLogicError('Cannot start board! Invalid status', ERR.INVALID_OBJECT_STATUS, {state: this.state})
+        if (this.state != 'WAITING_LOBBY') throw new AppLogicError('Cannot start board! Invalid status', 400, ERR.INVALID_OBJECT_STATUS, {state: this.state})
         this.state = 'RUNNING'
         return true
     }
 
     async run(): Promise<void> {
-        if (this.state != 'RUNNING') throw new GameLogicError('Cannot start board! Invalid status', ERR.INVALID_OBJECT_STATUS, {state: this.state})
+        if (this.state != 'RUNNING') throw new AppLogicError('Cannot start board! Invalid status', 400, ERR.INVALID_OBJECT_STATUS, {state: this.state})
         while (this.state == 'RUNNING') {
             const time = Date.now()
             try {
                 // Frame logic here
-                // console.log(`Game ${this.id} is running at: ${time}`)
+                console.log(`Game ${this.id} is running at: ${time}`)
             }
             catch (err) {
                 // Handle error each frame
@@ -51,7 +50,7 @@ export class EKGame {
     }
 
     async stop(): Promise<boolean> {
-        if (this.state != 'RUNNING') throw new GameLogicError('Cannot start board! Invalid status', ERR.INVALID_OBJECT_STATUS, {state: this.state})
+        if (this.state != 'RUNNING') throw new AppLogicError('Cannot start board! Invalid status', 400, ERR.INVALID_OBJECT_STATUS, {state: this.state})
         this.state = 'STOPPED'
         return true
     }

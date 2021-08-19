@@ -1,11 +1,10 @@
 import { EROpenAPIDocument, ExpressRouter } from "express-router-ts";
-import fs = require('fs-extra')
-import hera from "./utils/hera";
+import hera from "../utils/hera";
 import _ from "lodash";
-import HC from "./glob/hc";
+import HC from "../glob/hc";
 
-export class Program {
-    public static async main(): Promise<number> {
+export class SwaggerDocument {
+    public static async generate(): Promise<string> {
         const doc = new EROpenAPIDocument()
         doc.components = EROpenAPIDocument.COMPONENTS
         doc.info.title = HC.APP_NAME
@@ -26,27 +25,17 @@ export class Program {
             }
         }
 
-        const routers = await ExpressRouter.loadRoutersInDir(`${__dirname}/routes`, {
+        const routers = await ExpressRouter.loadRoutersInDir(`${__dirname}/../routes`, {
             log: console.error.bind(console)
         })
         await hera.sleep()
 
         routers.forEach(r => {
-            console.log(`Importing file ${r.file}`)
+            // console.log(`Importing file ${r.file}`)
             doc.addRouter(r.er, undefined, r.path)
-            console.log(`Imported file ${r.file}`)
+            // console.log(`Imported file ${r.file}`)
         })
 
-        // console.log(JSON.stringify(doc))
-        await fs.writeFile(`dist/openapi.json`, JSON.stringify(doc))
-        console.log('DONE')
-
-        return 0;
+        return JSON.stringify(doc)
     }
 }
-
-if (require.main == module) { // this is main file
-    Program.main();
-}
-
-export default Program;

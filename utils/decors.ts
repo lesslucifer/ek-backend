@@ -1,10 +1,11 @@
-import { addMiddlewareDecor, argMapperDecor, ExpressRouter, pushDoc, ResponseHandler, SetDoc, setDoc, updateDocument } from 'express-router-ts';
-import { AppLogicError } from './hera';
-import * as ajv2 from './ajv2';
 import Ajv from 'ajv';
+import { addMiddlewareDecor, argMapperDecor, ExpressRouter, pushDoc, SetDoc, setDoc, updateDocument } from 'express-router-ts';
+import { GQLGlobal } from 'gql-ts';
 import _ from 'lodash';
+import * as ajv2 from './ajv2';
+import { AppLogicError } from './hera';
 import express = require('express');
-import { GQL, GQLGlobal } from 'gql-ts';
+import ERR from '../glob/err';
 
 const ajv = new Ajv();
 
@@ -17,7 +18,7 @@ export function ValidBody(schema: any, sample: any = undefined) {
     }
 
     return addMiddlewareDecor(async req => {
-        if (!validator(req.body)) throw new AppLogicError('Invalid request body!', 400, validator.errors);
+        if (!validator(req.body)) throw new AppLogicError('Invalid request body!', 400, ERR.INVALID_FORMAT, validator.errors);
     }, setDoc('requestBody', {
         content: {
             'application/json': {

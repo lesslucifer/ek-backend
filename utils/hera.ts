@@ -15,11 +15,6 @@ export interface AsyncMapIterator<T, R> {
     (elem: T, idx: number): Promise<R>
 }
 
-export interface IGQLMGQueryPaginationOpts {
-    defaultLimit?: number;
-    maxLimit?: number;
-}
-
 export interface IAppErrorResponse {
     message?: string;
     code?: string;
@@ -40,7 +35,7 @@ export class AppApiResponse {
 }
 
 export class AppLogicError extends Error {
-    constructor(msg: string, public httpCode?: number, public params?: any) {
+    constructor(msg: string, public httpCode?: number, public errCode?: string, public params?: any) {
         super(msg); 
     }
 }

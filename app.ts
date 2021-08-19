@@ -11,6 +11,7 @@ import terminate from './serv/terminate';
 import createSesssionObject from './serv/sess';
 import _ from 'lodash';
 import * as fs from 'fs'
+import { SwaggerDocument } from './serv/swagger.document';
 
 export class Program {
     static server: express.Express;
@@ -22,7 +23,7 @@ export class Program {
 
         const server = express();
         this.server = server;
-        this.serveSwagger(server)
+        await this.serveSwagger(server)
         server.use(bodyParser.json(<any>{limit: '10mb', extended: true}));
         server.use(createSesssionObject());
         server.all('*', cors());
@@ -85,7 +86,7 @@ export class Program {
         }
         appResp.httpCode = _.isNumber(err.httpCode) ? err.httpCode : 500;
 
-        console.error(err, req);
+        console.error(err);
         this.doResponse(appResp, resp);
     }
 
@@ -105,16 +106,18 @@ export class Program {
         resp.send(appResp);
     }
 
-    static serveSwagger(server: express.Express) {
+    static async serveSwagger(server: express.Express) {
         const pathToSwaggerUi = require("swagger-ui-dist").absolutePath()
         const indexContent = fs.readFileSync(`${pathToSwaggerUi}/index.html`)
         .toString()
         .replace("https://petstore.swagger.io/v2/swagger.json", "./openapi.json")
 
+        const openAPIContent = await SwaggerDocument.generate()
+        server.use('/api-docs/openapi.json', (req, res) => res.send(openAPIContent))
+
         server.get('/api-docs/', (req, res) => res.send(indexContent))
         server.get('/api-docs/index.html', (req, res) => res.send(indexContent))
-        server.use('/api-docs/openapi.json', express.static(`${__dirname}/openapi.json`))
-        server.use('/api-docs', express.static(require("swagger-ui-dist").getAbsoluteFSPath()))
+        server.use('/api-docs', express.static(pathToSwaggerUi))
     }
 }
 

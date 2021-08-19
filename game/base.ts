@@ -1,11 +1,5 @@
 import { EKGame } from "./game";
 
-export class GameLogicError extends Error {
-    constructor(msg: string, public errCode?: string, public params?: any) {
-        super(msg);
-    }
-}
-
 export interface IEKCardActiveResult {
 
 }

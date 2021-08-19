@@ -2,7 +2,7 @@ import { Server, Socket } from 'socket.io'
 import ERR from '../glob/err'
 import { IUser } from '../models/mongo'
 import { ObjectID } from '../models/mongo/mongo-model'
-import { GameLogicError } from './base'
+import { AppLogicError } from '../utils/hera'
 
 export interface IEKMessage {
 
@@ -45,9 +45,9 @@ export class EKSocketIOServer {
     }
 
     assignUserWithSocket(user: IUser, socketId: string) {
-        if (!this.socketIdToSockets.has(socketId)) throw new GameLogicError(`Socket id does not exist`, ERR.OBJECT_NOT_FOUND)
+        if (!this.socketIdToSockets.has(socketId)) throw new AppLogicError(`Socket id does not exist`, 404, ERR.OBJECT_NOT_FOUND)
         if (this.socketToUser.has(socketId) && user._id.equals(this.socketToUser.get(socketId))) {
-            throw new GameLogicError('Cannot assign user to socket, it is already used by another user')
+            throw new AppLogicError('Cannot assign user to socket, it is already used by another user', 409, ERR.OBJECT_IS_ALREADY_EXIST)
         }
 
         const socket = this.socketIdToSockets.get(socketId)

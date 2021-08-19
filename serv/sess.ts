@@ -1,19 +1,17 @@
 import * as express from 'express';
 import * as uuid from 'uuid';
+import { IUser } from '../models/mongo';
 
-export class AuthUserSession {
-    constructor(public id: string, public roles: string[]) {}
-}
 
-interface IReqSession {
-    user?: AuthUserSession;
+interface IReqSession<UserType> {
+    user?: UserType;
     system?: string;
 }
 
 declare module "express-serve-static-core" {
     interface Request {
         nonce: string;
-        session: IReqSession
+        session: IReqSession<IUser>
     }
 }
 
