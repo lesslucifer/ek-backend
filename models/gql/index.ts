@@ -3,6 +3,7 @@ import { GQLUser } from "./user";
 import * as mongodb from 'mongodb';
 import hera from "../../utils/hera";
 import _ from "lodash";
+import { EROpenAPIDocument } from "express-router-ts";
 
 export interface IGQLMGQueryPaginationOpts {
     defaultLimit?: number;
@@ -11,15 +12,20 @@ export interface IGQLMGQueryPaginationOpts {
 
 export class AppGQL {
     static async init(gql: GQL) {
-    GQLU.Parsers.unshift((gql, spec, val) => {
+        GQLU.Parsers.unshift((gql, spec, val) => {
             if (spec.rawType == GQLBaseType.STRING && mongodb.ObjectId.isValid(val)) {
                 return `${val}`;
             }
         });
-        
-        gql.add(GQLUser);
+
+        const models = [
+            GQLUser
+        ]
+
+        models.forEach(m => GQLGlobal.add(m))
+        models.forEach(m => EROpenAPIDocument.COMPONENTS.schemas[m.gql.get(m).name] = m.openAPISchema())
     }
-    
+
     static gqlMongoQueryPagination<T>(gqlModel: Function, gqlQuery: GQLQuery, mgCollection: mongodb.Collection<T>, mgQuery: any, opts?: IGQLMGQueryPaginationOpts) {
         const gql = GQLGlobal;
         const spec = GQLGlobal.get(gqlModel);
@@ -41,11 +47,11 @@ export class AppGQL {
                 _.set(mgQuery, `${ks.key}.$lt`, qVal)
             })
 
-        const cursor = mgCollection.find(mgQuery).project(hera.arrToObj(gqlQuery.QueryFields, f => <string> f, () => true));
+        const cursor = mgCollection.find(mgQuery).project(hera.arrToObj(gqlQuery.QueryFields, f => <string>f, () => true));
 
         const sort = gqlQuery.sort;
         if (!hera.isEmpty(sort)) {
-            cursor.sort(hera.arrToObj(sort.fields, f => f.field, f => <mongodb.SortDirection> f.OrderNumber));
+            cursor.sort(hera.arrToObj(sort.fields, f => f.field, f => <mongodb.SortDirection>f.OrderNumber));
         }
 
         const defLimit = (opts && opts.defaultLimit) || 1000;

@@ -13,13 +13,18 @@ import _ from 'lodash';
 import * as fs from 'fs'
 import { SwaggerDocument } from './serv/swagger.document';
 import { AppMongoModels } from './models/mongo';
+import { AppGQL } from './models/gql';
+import { GQLGlobal } from 'gql-ts';
+import AuthServ from './serv/auth';
 
 export class Program {
     static server: express.Express;
 
     public static async setup() {
         await CONN.configureConnections(ENV);
-        await AppMongoModels.init(CONN.)
+        await AppMongoModels.init(CONN.MONGO)
+        await AppGQL.init(GQLGlobal)
+        await AuthServ.init()
 
         const server = express();
         this.server = server;

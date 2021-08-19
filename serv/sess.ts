@@ -2,6 +2,10 @@ import * as express from 'express';
 import * as uuid from 'uuid';
 import { IUser } from '../models/mongo';
 
+export interface IAuthUser {
+    _id: string;
+    name: string;
+}
 
 interface IReqSession<UserType> {
     user?: UserType;
@@ -11,7 +15,7 @@ interface IReqSession<UserType> {
 declare module "express-serve-static-core" {
     interface Request {
         nonce: string;
-        session: IReqSession<IUser>
+        session: IReqSession<IAuthUser>
     }
 }
 

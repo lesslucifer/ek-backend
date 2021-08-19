@@ -28,7 +28,10 @@ class AuthRouter extends ExpressRouter {
         const isPasswordCorrect = user && await UserServ.isValidPassword(user._id, body.password)
         if (!isPasswordCorrect) throw new AppLogicError('Cannot login! Invalid username or password', 400);
     
-        const token = await AuthServ.userAuthenticator.genTokens(user);
+        const token = await AuthServ.userAuthenticator.genTokens({
+            _id: user._id.toHexString(),
+            name: user.name
+        });
         
         return token;
     }

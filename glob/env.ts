@@ -6,10 +6,14 @@ const ajv = newAjv2();
 
 export interface DB_CONFIG {
     REDIS: string;
+    MONGO_CONNECTION: string;
+    MONGO_OPTIONS: any;
 }
 
 const ajvDbConfig = {
-    '+@REDIS': 'string'
+    '+@REDIS': 'string',
+    '+@MONGO_CONNECTION': 'string',
+    'MONGO_OPTIONS': {}
 }
 
 export interface AUTH_CONFIG {
@@ -41,7 +45,8 @@ const ajvEnvConfig = ajv({
 const ENV_DEFAULT: Partial<ENV_CONFIG> = {
     HTTP_PORT: 3000,
     SECRECT_KEY: '123',
-    LOG_LEVEL: 'debug'
+    LOG_LEVEL: 'debug',
+    MONGO_OPTIONS: {},
 }
 
 const envCustomParser = {

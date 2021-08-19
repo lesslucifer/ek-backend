@@ -6,6 +6,9 @@ export default function terminate(server, options = { coredump: false, timeout: 
   return (code, reason) => (err, promise) => {
     if (err && err instanceof Error) {
       console.error(err)
+      if (err.message) {
+        console.error(err.message)
+      }
     }
 
     server.close(exit)
