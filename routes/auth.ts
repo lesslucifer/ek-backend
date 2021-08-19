@@ -15,6 +15,9 @@ class AuthRouter extends ExpressRouter {
         '+@name': 'string',
         '+@password': 'string',
         '++': false
+    }, {
+        'name': 'vulq',
+        'password': '123456'
     })
     @POST()
     async login(@Req() req: express.Request, @Body() body: ILoginBody) {
@@ -33,6 +36,8 @@ class AuthRouter extends ExpressRouter {
     @ValidBody({
         '+@refresh_token': 'string',
         '++': false
+    }, {
+        'refresh_token': 'refresh_token'
     })
     @PUT({path: '/token'})
     async refreshToken(@Req() req: express.Request, @Body('refresh_token') refreshToken: string) {
@@ -55,6 +60,9 @@ class AuthRouter extends ExpressRouter {
         '@access_token': 'string',
         '@refresh_token': 'string',
         '++': false
+    },{
+        'access_token': 'access_token',
+        'refresh_token': 'refresh_token'
     })
     @PUT({path: '/logout'})
     async logout(@Req() req: express.Request,
@@ -71,6 +79,9 @@ class AuthRouter extends ExpressRouter {
         '+@name': 'string',
         '+@password': 'string|>=6',
         '++': false
+    }, {
+        'name': 'vulq',
+        'password': '123456'
     })
     @POST({path: '/reg'})
     async reg(@Req() req: express.Request, @Body() data: IRegBody) {

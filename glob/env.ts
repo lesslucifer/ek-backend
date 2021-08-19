@@ -12,7 +12,19 @@ const ajvDbConfig = {
     '+@REDIS': 'string'
 }
 
-export interface ENV_CONFIG extends DB_CONFIG {
+export interface AUTH_CONFIG {
+    SECRECT_KEY: string;
+    ACCESS_TOKEN_EXPIRES?: number;
+    REFRESH_TOKEN_EXPIRES?: number;
+}
+
+const ajvAuthConfig = {
+    '+@SECRECT_KEY': 'string',
+    '@ACCESS_TOKEN_EXPIRES': 'number',
+    '@REFRESH_TOKEN_EXPIRES': 'number'
+}
+
+export interface ENV_CONFIG extends DB_CONFIG, AUTH_CONFIG {
     NAME: string;
     HTTP_PORT: number;
     LOG_LEVEL: string;
@@ -20,13 +32,15 @@ export interface ENV_CONFIG extends DB_CONFIG {
 
 const ajvEnvConfig = ajv({
     '+@NAME': 'string',
-    '@HTTP_PORT': 'number',
-    '@LOG_LEVEL': 'string',
-    ...ajvDbConfig
+    '+@HTTP_PORT': 'number',
+    '+@LOG_LEVEL': 'string',
+    ...ajvDbConfig,
+    ...ajvAuthConfig
 })
 
 const ENV_DEFAULT: Partial<ENV_CONFIG> = {
     HTTP_PORT: 3000,
+    SECRECT_KEY: '123',
     LOG_LEVEL: 'debug'
 }
 

@@ -13,8 +13,10 @@ export let Migration: mongodb.Collection<IMigration>;
 export let User: mongodb.Collection<IUser>;
 export let UserAuth: mongodb.Collection<IUserAuth>;
 
-export function init(db: mongodb.Db) {
-    Migration = db.collection<IMigration>('migration');
-    User = db.collection<IUser>('user');
-    UserAuth = db.collection<IUserAuth>('user-auth');
+export class AppMongoModels {
+    static init(db: mongodb.Db) {
+        Migration = db.collection<IMigration>('migration');
+        User = db.collection<IUser>('user');
+        UserAuth = db.collection<IUserAuth>('user-auth');
+    }
 }

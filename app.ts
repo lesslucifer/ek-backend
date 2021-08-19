@@ -12,14 +12,14 @@ import createSesssionObject from './serv/sess';
 import _ from 'lodash';
 import * as fs from 'fs'
 import { SwaggerDocument } from './serv/swagger.document';
+import { AppMongoModels } from './models/mongo';
 
 export class Program {
     static server: express.Express;
 
     public static async setup() {
         await CONN.configureConnections(ENV);
-
-        // AuthServ.MODEL = UserServ
+        await AppMongoModels.init(CONN.)
 
         const server = express();
         this.server = server;

@@ -1,5 +1,5 @@
 import * as express from 'express';
-import { addMiddlewareDecor, ExpressRouter } from 'express-router-ts';
+import { addMiddlewareDecor, ExpressRouter, pushDoc } from 'express-router-ts';
 import { IUser } from '../models/mongo';
 import hera, { AppLogicError } from '../utils/hera';
 import { JWTAuth } from '../utils/jwt-auth';
@@ -12,7 +12,7 @@ export class AuthServ {
         this.userAuthenticator = new JWTAuth<IUser>('123');
     }
 
-    static AuthRole(...roles: string[]) {
+    static AuthPlayer() {
         return addMiddlewareDecor(async (req: express.Request) => {
             if (!req.session.user) {
                 const accessToken = req.header('Authorization');
@@ -29,7 +29,7 @@ export class AuthServ {
                 this.userAuthenticator.renewToken(accessToken);
                 req.session.user = user;
             }
-        });
+        }, pushDoc('security', {AccessToken: []}));
     }
 
     static get SystemKeys() {

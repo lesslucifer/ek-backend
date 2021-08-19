@@ -1,6 +1,7 @@
 import * as express from 'express';
 import { Body, ExpressRouter, GET, PUT, Query, Req } from 'express-router-ts';
 import { GQLFieldFilter, GQLGlobal, GQLU } from 'gql-ts';
+import HC from '../glob/hc';
 import { GQLUser } from '../models/gql/user';
 import { IUser } from '../models/mongo';
 // Import models here
@@ -12,7 +13,7 @@ import { AppLogicError } from '../utils/hera';
 
 class UserRouter extends ExpressRouter {
 
-    @AuthServ.AuthRole()
+    @AuthServ.AuthPlayer()
     @GET({path: '/me'})
     async getUserProfile(@Sess('user') user: IUser, @Query() q) {
         const query = GQLGlobal.queryFromHttpQuery(q, GQLUser);
@@ -23,7 +24,7 @@ class UserRouter extends ExpressRouter {
         return me;
     }
 
-    @AuthServ.AuthRole()
+    @AuthServ.AuthPlayer()
     @ValidBody({
         '+@oldPassword': 'string',
         '+@newPassword': 'string|len>=6',
@@ -40,7 +41,7 @@ class UserRouter extends ExpressRouter {
     
         await UserServ.updatePassword(user._id, newPass);
         
-        return {};
+        return HC.SUCCESS;
     }
 }
 

@@ -107,6 +107,16 @@ export function DocSuccessResponse() {
     return DocResponse(null)
 }
 
+export function DocIdResponse(idField: string = 'id') {
+    return DocResponse({
+        [`+@${idField}`]: 'string'
+    })
+}
+
+export function DocMongoIdResponse() {
+    return DocIdResponse('_id')
+}
+
 export interface IParameterDoc {
     name: string;
     in: 'query' | 'path';
