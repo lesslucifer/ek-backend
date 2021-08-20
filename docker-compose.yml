@@ -4,6 +4,6 @@ services:
   image_name:
     image: image_name:latest
     ports:
-      - 3000:3000
+      - 4365:4365
     environment:
-      - HTTP_PORT=3000
+      - HTTP_PORT=4365

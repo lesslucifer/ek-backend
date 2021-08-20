@@ -43,7 +43,7 @@ const ajvEnvConfig = ajv({
 })
 
 const ENV_DEFAULT: Partial<ENV_CONFIG> = {
-    HTTP_PORT: 3000,
+    HTTP_PORT: 4365,
     SECRECT_KEY: '123',
     LOG_LEVEL: 'debug',
     MONGO_OPTIONS: {},
